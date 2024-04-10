@@ -1,13 +1,11 @@
 require 'optparse'
-require 'net/ssh'
 require 'shodanz' 
-require 'highline'
 require 'colorize'
 
 class Program
   def initialize
     @data = { 
-      API_KEY: "pHHlgpFt8Ka3Stb5UlTxcaEwciOeF2QM",
+      API_KEY: "YOUR_API_KEY",
       output: 'output.txt',
       page: 1,
     }
@@ -25,7 +23,7 @@ class Program
         end
       end
     rescue StandardError => standart_error
-      STDERR.puts("Hata: #{standart_error}".colorize(:red))
+      STDERR.puts("Error: #{standart_error}".colorize(:red))
       return
     end
   end
@@ -36,21 +34,21 @@ class Program
         file_man.puts(output)
       end
     rescue StandardError => standart_error
-      STDERR.puts("Hata: #{standart_error}".colorize(:red))
+      STDERR.puts("Error: #{standart_error}".colorize(:red))
       return
     end
   end
 
   def print_help
     help_text <<-'HELP'
-Kullanım: ruby shodan.rb [Opsiyonlar]
+Kullanım: ruby shodan.rb [Options]
 
 Opsiyonlar:
-  -q, --query QUERY: Shodan'da Arama Yapılacak Sorgu Verisi
-  -o, --output OUTPUT: Sorgu Sonuçlarının Kayıt Altına Alınacağı Dosya
-  -p, --page PAGE: Shodan'da Arama Yapılacak Sayfa Sayısı
-  -k, --key API_KEY: Shodan'da Arama Yaparken Kullanılacak API Anahtar Verisi
-  -h, --help: Yardım Mesajını Ekrana Basan Parametre
+  -q, --query QUERY: No Search in Shodan Query Data
+  -o, --output OUTPUT: File where query results will be recorded
+  -p, --page PAGE: Number of Pages to Search in Shodan
+  -k, --key API_KEY: API Key Data to Use When Searching Shodan
+  -h, --help: Parameter that Prints the Help Message on the Screen
     HELP
   end
 
@@ -64,7 +62,7 @@ Opsiyonlar:
         parser.on("-h", "--help") { print_help; exit! } # -h
       end.parse!
     rescue ArgumentError => arg_error
-      STDERR.puts("Hata: #{arg_error}".colorize(:red))
+      STDERR.puts("Error: #{arg_error}".colorize(:red))
       print_help
       exit!
     end
